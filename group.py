@@ -44,12 +44,6 @@ class Group:
             raise Exception(f"double values in {self.__str__()} ({valuestr})")
         return ready
 
-    def cleanup_options(self):
-        if (not self.is_ready()):
-            for cell in self.cells:
-                if (cell.value > 0):
-                    cell.drop_option(cell.value)
-
     def verbose(self, level, msg):
         if (level <= Group.verbosity):
             print(msg)

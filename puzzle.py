@@ -31,7 +31,7 @@ class Puzzle:
             print("Starting backtrack algoritm")
             self.backtrack(level)
 
-    def print(self, cell):
+    def print(self, cell=None):
         for i in range(1, 10):
             if i == 4 or i == 7:
                 print(' ', end='')

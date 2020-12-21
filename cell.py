@@ -9,7 +9,7 @@ class Cell:
         Cell.nr += 1
         self.id = Cell.nr
         self.value = value or 0
-        self.options = set() if value else {v for v in range(1, 10)}
+        self.options = {} if value else {v for v in range(1, 10)}
         self.state = None
 
     def __str__(self, strip=False):

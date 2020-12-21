@@ -67,7 +67,8 @@ if len(values) != 81:
 
 # try:
 sudoku = Puzzle9x9(values)
+sudoku.print()
 sudoku.solve()
 # except Exception as error:
 # print('exception', error)
-sudoku.print(None)
+sudoku.print()

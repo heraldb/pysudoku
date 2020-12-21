@@ -1,4 +1,5 @@
 from verbosity import Verbosity
+from island import Island
 
 
 class Group:
@@ -65,18 +66,20 @@ class Group:
             return
 
         if (Group.search_islands):
-            (island_cells, options) = Group._get_island(rcells)
-            if (len(island_cells) > 1):
-                cellstr = ', '.join([c.__str__() for c in island_cells])
-                valstr = ', '.join([str(o) for o in options])
+            islands = Group._get_island(rcells)
+            Verbosity.verbose(2,
+                              f"found {len(islands)} islands in {self.__str__()}")
+            for island in islands:
+                cellstr = ', '.join([c.__str__() for c in island.cells])
+                valstr = ', '.join([str(o) for o in island.options])
                 me = self.__str__()
                 Verbosity.verbose(
                     1, f"island in {me}: cells {cellstr} have values {valstr}")
 
-                il_ids = {c.id for c in island_cells}
+                il_ids = {c.id for c in island.cells}
                 for c in rcells:
                     if c.id not in il_ids:
-                        for o in options:
+                        for o in island.options:
                             c.drop_option(o)
 
         self.find_single_option_cells()
@@ -118,6 +121,7 @@ class Group:
     @staticmethod
     def _get_island(cells):
         n = 0
+        islands = []
         for cell in cells:
             n += 1
             for max in range(n, len(cells)):
@@ -128,8 +132,8 @@ class Group:
                     for o in c.options:
                         options.add(o)
                 if len(il) == len(options):
-                    return (il, options)
-        return ([], {})
+                    islands.append(Island(il, options))
+        return islands
     # @staticmethod
     # def _get_island(cells, il_cells, il_options):
     #     print(f"1 {il_cells} 2 {il_options}")

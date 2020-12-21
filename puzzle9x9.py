@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#import sys
 import argparse
 from verbosity import Verbosity
 from cell import Cell
@@ -25,12 +24,12 @@ class Puzzle9x9(Puzzle):
                                  cells[n + 9:n + 12] +
                                  cells[n + 18:n + 21]
                                  ))
-        for r in rows:
-            print(r.__repr__())
-        for c in columns:
-            print(c.__repr__())
-        for s in squares:
-            print(s.__repr__())
+        # for r in rows:
+        #     print(r.__repr__())
+        # for c in columns:
+        #     print(c.__repr__())
+        # for s in squares:
+        #     print(s.__repr__())
         self.cells = cells
         self.groups = rows + columns + squares
         self.rows = rows
@@ -59,15 +58,15 @@ print('verbosity level', Verbosity.level)
 f = open(filename[0], "r")
 text = f.read()
 f.close()
-print(text)
+# print(text)
 values = [toNumber(char) for char in text if 46 <= ord(char) <= 57]
-print(values)
+# print(values)
 if len(values) != 81:
     raise Exception(f"Invalid sudoku: expected 81 digits, not {len(values)}")
 
 # try:
 sudoku = Puzzle9x9(values)
-sudoku.print()
+# sudoku.print()
 sudoku.solve()
 # except Exception as error:
 # print('exception', error)

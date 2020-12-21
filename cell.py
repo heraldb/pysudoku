@@ -66,6 +66,8 @@ class Cell:
                     str(self.value))
 
     def save_state(self, level):
+        if not self.state:
+            self.state = {}
         self.state[level] = {
             'options': self.options.copy(), 'value': self.value}
 

@@ -45,13 +45,15 @@ class Group:
             raise Exception(f"double values in {self.__str__()} ({valuestr})")
         return ready
 
-    def verbose(self, level, msg):
-        if (level <= Group.verbosity):
-            print(msg)
+    def cleanup_options(self):
+        if (not self.is_ready()):
+            for cell in self.cells:
+                if (cell.value > 0):
+                    cell.drop_option(cell.value)
 
     def solve(self):
         Verbosity.verbose(2, f"solving {self.__str__()}")
-        Verbosity.verbose(2, self.debug())
+        Verbosity.verbose(4, self.debug())
         rcells = self.remaining_cells()
         if (len(rcells) == 0):
             return
@@ -67,8 +69,8 @@ class Group:
 
         if (Group.search_islands):
             islands = Group._get_island(rcells)
-            Verbosity.verbose(2,
-                              f"found {len(islands)} islands in {self.__str__()}")
+            # Verbosity.verbose(2,
+            #             f"found {len(islands)} islands in {self.__str__()}")
             for island in islands:
                 cellstr = ', '.join([c.__str__() for c in island.cells])
                 valstr = ', '.join([str(o) for o in island.options])

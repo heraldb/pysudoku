@@ -1,5 +1,6 @@
 from group import Group
 from cell import Cell
+from verbosity import Verbosity
 
 
 class Puzzle:
@@ -46,6 +47,29 @@ class Puzzle:
             if n % 3 == 0:
                 print(f"+{'-' *29}+")
 
-    @ staticmethod
-    def backtrack(level):
-        print('Not implemented')
+    def backtrack(self, level):
+        cells = self.remaining_cells()
+        cells.sort(key=lambda c: len(c.options))
+        for cell in cells:
+            Verbosity.verbose(3,
+                              "cell {} has {} options".
+                              format(cell.__str__(), len(cell.options))
+                              )
+            for option in cell.options:
+                Verbosity.verbose(1, f"try {option} for cell {cell.__str__()}")
+                remaining_cells = self.remaining_cells()
+                for c in remaining_cells:
+                    c.save_state(level)
+                cell.set(option)
+                for group in self.groups:
+                    group.cleanup_options()
+                try:
+                    self.solve(level)
+                except Exception:
+                    Verbosity.verbose(1,
+                                      "option {} for {} did not work out".
+                                      format(option, cell.__str__()))
+                    for c in remaining_cells:
+                        c.revert_state(level)
+                else:
+                    return

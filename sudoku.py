@@ -16,20 +16,14 @@ parser.add_argument('--hints', action="store_true")
 parser.add_argument('-v', "--verbose", type=int, help="verbosity 1-4")
 
 args = parser.parse_args()
-filename = args.file
-verbosity = args.verbose
-hints = args.hints
-# print(f"hints: {hints}, verbosity: {verbosity}, filename: {filename}")
-Verbosity.level = verbosity or 0
-Verbosity.hints = hints
-# print('verbosity level', Verbosity.level)
-
-f = open(filename[0], "r")
+Verbosity.level = args.verbose or 0
+Verbosity.hints = args.hints
+filename = args.file.pop()
+f = open(filename, "r")
 text = f.read()
 f.close()
-# print(text)
+
 values = [toNumber(char) for char in text if 46 <= ord(char) <= 57]
-# print(values)
 if len(values) != 81:
     raise Exception(f"Invalid sudoku: expected 81 digits, not {len(values)}")
 

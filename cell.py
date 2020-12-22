@@ -73,5 +73,5 @@ class Cell:
             'options': self.options.copy(), 'value': self.value}
 
     def revert_state(self, level):
-        self.options = self.state[level].options
-        self.value = self.state[level].value
+        self.options = self.state[level]['options']
+        self.value = self.state[level]['value']

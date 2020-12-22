@@ -28,6 +28,9 @@ if len(values) != 81:
     raise Exception(f"Invalid sudoku: expected 81 digits, not {len(values)}")
 
 sudoku = Puzzle9x9(values)
+if Verbosity.level >= 1:
+    print("Initial sudoku")
+    sudoku.print()
 sudoku.solve()
 if (len(sudoku.remaining_groups()) == 0):
     sudoku.print()

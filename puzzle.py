@@ -29,7 +29,6 @@ class Puzzle:
 
         # if still not solved, fall back on backtrack trial and error
         if len(self.remaining_groups()) > 0:
-            print("Starting backtrack algoritm")
             self.backtrack(level)
 
     def print(self, cell=None):
@@ -48,6 +47,7 @@ class Puzzle:
                 print(f"+{'-' *29}+")
 
     def backtrack(self, level):
+        print(f"Starting backtrack algoritm (level {level})")
         cells = self.remaining_cells()
         cells.sort(key=lambda c: len(c.options))
         for cell in cells:

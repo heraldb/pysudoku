@@ -63,7 +63,8 @@ class Cell:
                     f"only option for cell {self.__str__()} is {self.value}")
                 Verbosity.expect_answer(
                     f"Cell {self.__str__()} has only one option: ",
-                    str(self.value))
+                    str(self.value),
+                    self)
 
     def save_state(self, level):
         if not self.state:

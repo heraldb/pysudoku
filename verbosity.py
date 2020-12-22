@@ -4,16 +4,18 @@ import sys
 class Verbosity:
     hints = False
     level = 0
+    print = None
 
     @staticmethod
-    def expect_answer(msg, expected_answer):
+    def expect_answer(msg, expected_answer, cell=None):
         if Verbosity.hints:
+            Verbosity.print(cell)
             print(msg)
             answer = ''
-            while (answer != expected_answer):
-                if (answer != ''):
-                    print("Try again")
-                answer = sys.stdin.rstrip()
+            for line in sys.stdin:
+                answer = line.rstrip()
+                if answer == expected_answer:
+                    break
 
     @staticmethod
     def verbose(level, msg):

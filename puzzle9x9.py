@@ -33,6 +33,7 @@ class Puzzle9x9(Puzzle):
         self.cells = cells
         self.groups = rows + columns + squares
         self.rows = rows
+        Verbosity.print = self.print
 
 
 def toNumber(char):
@@ -50,10 +51,10 @@ args = parser.parse_args()
 filename = args.file
 verbosity = args.verbose
 hints = args.hints
-print(f"hints: {hints}, verbosity: {verbosity}, filename: {filename}")
+# print(f"hints: {hints}, verbosity: {verbosity}, filename: {filename}")
 Verbosity.level = verbosity or 0
 Verbosity.hints = hints
-print('verbosity level', Verbosity.level)
+# print('verbosity level', Verbosity.level)
 
 f = open(filename[0], "r")
 text = f.read()

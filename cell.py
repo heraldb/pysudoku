@@ -38,7 +38,7 @@ class Cell:
         if not (n in self.options):
             raise Exception(
                 f"value {n} not possible for cell {self.__str__()}")
-        self.options = None
+        self.options = {}
         Verbosity.verbose(3, f"cell {self.__str__()} is set to value {n}")
 
     def can(self, n):
@@ -59,7 +59,7 @@ class Cell:
             if (nr == 1):
                 self.set(list(self.options)[0])
                 Verbosity.verbose(
-                    1,
+                    2,
                     f"only option for cell {self.__str__()} is {self.value}")
                 Verbosity.expect_answer(
                     f"Cell {self.__str__()} has only one option: ",

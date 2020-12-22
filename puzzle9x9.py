@@ -32,3 +32,18 @@ class Puzzle9x9(Puzzle):
         self.groups = rows + columns + squares
         self.rows = rows
         Verbosity.print = self.print
+
+    def print(self, cell=None):
+        for i in range(1, 10):
+            if i == 4 or i == 7:
+                print(' ', end='')
+            print(f"  {i}", end='')
+        print()
+        print(f"+{'-' * 29}+")
+        n = 0
+        for row in self.rows:
+            n += 1
+            row.print(cell)
+            print('', n)
+            if n % 3 == 0:
+                print(f"+{'-' *29}+")

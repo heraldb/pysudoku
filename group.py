@@ -45,11 +45,19 @@ class Group:
             raise Exception(f"double values in {self.__str__()} ({valuestr})")
         return ready
 
-    def cleanup_options(self):
-        if (not self.is_ready()):
-            for cell in self.cells:
-                if (cell.value > 0):
-                    cell.drop_option(cell.value)
+    def validate(self):
+        values = [c.value for c in self.cells if c.value > 0]
+        value_set = set(values)
+        if len(values) != len(value_set):
+            double = {v for v in values if values.count(v) > 1}
+            raise Exception(
+                f"{self.__str__()}: value {double} occurs more than once")
+
+    # def cleanup_options(self):
+    #     if (not self.is_ready()):
+    #         for cell in self.cells:
+    #             if (cell.value > 0):
+    #                 cell.drop_option(cell.value)
 
     def solve(self):
         Verbosity.verbose(2, f"solving {self.__str__()}")
@@ -76,7 +84,7 @@ class Group:
                 valstr = ', '.join([str(o) for o in island.options])
                 me = self.__str__()
                 Verbosity.verbose(
-                    1, f"island in {me}: cells {cellstr} have values {valstr}")
+                    2, f"island in {me}: cells {cellstr} have values {valstr}")
 
                 il_ids = {c.id for c in island.cells}
                 for c in rcells:
@@ -101,7 +109,7 @@ class Group:
                 me = self.__str__()
                 cstr = candidate.__str__()
                 Verbosity.verbose(
-                    1, f"{me}: cell {cstr} is only option for value {v}")
+                    2, f"{me}: cell {cstr} is only option for value {v}")
                 Verbosity.expect_answer(
                     f"In {self.__str__()}, which cell can have value {v}:",
                     candidate.__str__()

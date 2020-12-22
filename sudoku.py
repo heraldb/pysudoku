@@ -27,10 +27,7 @@ values = [toNumber(char) for char in text if 46 <= ord(char) <= 57]
 if len(values) != 81:
     raise Exception(f"Invalid sudoku: expected 81 digits, not {len(values)}")
 
-# try:
 sudoku = Puzzle9x9(values)
-# sudoku.print()
 sudoku.solve()
-# except Exception as error:
-# print('exception', error)
-sudoku.print()
+if (len(sudoku.remaining_groups()) == 0):
+    sudoku.print()

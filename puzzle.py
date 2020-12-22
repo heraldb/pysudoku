@@ -66,5 +66,6 @@ class Puzzle:
                 if len(self.remaining_groups()) == 0:
                     Verbosity.print()
             finally:
+                Verbosity.verbose(1, f"leaving level {level}")
                 for c in remaining_cells:
                     c.revert_state(level)

@@ -144,20 +144,3 @@ class Group:
                 if len(il) == len(options):
                     islands.append(Island(il, options))
         return islands
-    # @staticmethod
-    # def _get_island(cells, il_cells, il_options):
-    #     print(f"1 {il_cells} 2 {il_options}")
-    #     if len(il_cells) > 0 and len(il_cells) == len(il_options):
-    #         return (cells, il_cells, il_options)
-    #     if len(cells) == 1:
-    #         return (list(), list(), set())
-    #     n = 0
-    #     for cell in cells:
-    #         n += 1
-    #         other_cells = cells[n:]
-    #         new_il_cells = [c for c in il_cells]
-    #         new_il_cells.append(cell)
-    #         new_options = il_options.copy()
-    #         for o in cell.options:
-    #             new_options.add(o)
-    #         return Group._get_island(other_cells, new_il_cells, new_options)

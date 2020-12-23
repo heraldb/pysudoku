@@ -55,7 +55,8 @@ class Puzzle:
             n += 1
             Verbosity.verbose(1,
                               "{}{}. trying {} for cell {}"
-                              .format(level, chr(96 + n), option, cell.__str__()))
+                              .format(level,
+                                      chr(96 + n), option, cell.__str__()))
             remaining_cells = self.remaining_cells()
             for c in remaining_cells:
                 c.save_state(level)

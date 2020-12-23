@@ -58,5 +58,10 @@ $ python sudoku.py s20201128
 +-----------------------------+
 ```
 
+## Features
 
+* uses logic to solve as much as possible.
+* falls back to trial & error with backtracking of logic is insufficient. In this case it is possible multiple solutions are possible. All of these will appear in the output.
+* If you are trying to solve a sudoku and your are stuck, you can use the 
+`--hints` option to help you solving the sudoku
 

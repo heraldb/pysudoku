@@ -50,8 +50,12 @@ class Puzzle:
                           "cell {} has {} options".
                           format(cell.__str__(), len(cell.options))
                           )
+        n = 0
         for option in cell.options:
-            Verbosity.verbose(1, f"trying {option} for cell {cell.__str__()}")
+            n += 1
+            Verbosity.verbose(1,
+                              "{}{}. trying {} for cell {}"
+                              .format(level, chr(96 + n), option, cell.__str__()))
             remaining_cells = self.remaining_cells()
             for c in remaining_cells:
                 c.save_state(level)

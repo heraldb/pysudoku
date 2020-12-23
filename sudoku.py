@@ -32,5 +32,14 @@ if Verbosity.level >= 1:
     print("Initial sudoku")
     sudoku.print()
 sudoku.solve()
-if (len(sudoku.remaining_groups()) == 0):
-    sudoku.print()
+if (len(sudoku.solutions) == 0):
+    print("Could not solve the puzzle, are you sure about the input?")
+elif len(sudoku.solutions) == 1:
+    Puzzle9x9(sudoku.solutions[0]).print()
+else:
+    n = 0
+    print("Multiple solutions!")
+    for solution in sudoku.solutions:
+        n += 1
+        print(f"\nSolution {n}:")
+        Puzzle9x9(solution).print()

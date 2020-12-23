@@ -15,7 +15,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  --hints
+  --hints               interactive mode
   -v VERBOSE, --verbose VERBOSE
                         verbosity 1-4
 ```

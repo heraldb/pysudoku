@@ -12,7 +12,7 @@ def toNumber(char):
 
 parser = argparse.ArgumentParser(description='Solves a sudoku 9x9 puzzle.')
 parser.add_argument('file', help='sudoku-file', nargs=1)
-parser.add_argument('--hints', action="store_true")
+parser.add_argument('--hints', action="store_true", help="interactive mode")
 parser.add_argument('-v', "--verbose", type=int, help="verbosity 1-4")
 
 args = parser.parse_args()

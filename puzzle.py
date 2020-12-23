@@ -17,7 +17,6 @@ class Puzzle:
 
     def solve(self, level=0):
         prev_progress = -1
-        level += 1
         while Cell.progress > prev_progress:
             prev_progress = Cell.progress
             for group in self.groups:
@@ -36,7 +35,7 @@ class Puzzle:
             if Verbosity.level >= 1:
                 print("gave up on logic, this is have far we got")
                 self.print()
-            self.backtrack(level)
+            self.backtrack(level + 1)
 
     def backtrack(self, level):
         print(f"Starting backtrack algoritm (level {level})")
@@ -46,10 +45,6 @@ class Puzzle:
 
         Verbosity.verbose(1,
                           f"cell {cell.__str__()} has options {cell.options}")
-        Verbosity.verbose(3,
-                          "cell {} has {} options".
-                          format(cell.__str__(), len(cell.options))
-                          )
         n = 0
         for option in cell.options:
             n += 1

@@ -8,7 +8,7 @@ Solving sudoku puzzles (9x9)
 $ ./sudoku.py -h`
 usage: sudoku.py [-h] [--hints] [-v VERBOSE] file
 
-Solve a sudoku 9x9 puzzle.
+Solves a sudoku 9x9 puzzle.
 
 positional arguments:
   file                  sudoku-file

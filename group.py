@@ -53,12 +53,6 @@ class Group:
             raise Exception(
                 f"{self.__str__()}: value {double} occurs more than once")
 
-    # def cleanup_options(self):
-    #     if (not self.is_ready()):
-    #         for cell in self.cells:
-    #             if (cell.value > 0):
-    #                 cell.drop_option(cell.value)
-
     def solve(self):
         Verbosity.verbose(2, f"solving {self.__str__()}")
         Verbosity.verbose(4, self.debug())

@@ -14,7 +14,7 @@ class Cell:
         self.state = None
 
     def __str__(self, strip=False):
-        row = 1 + self.id // self.max
+        row = 1 + (self.id - 1) // self.max
         col = 1 + (self.id - 1) % self.max
         if strip:
             return f"{col},{row}"

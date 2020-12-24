@@ -14,10 +14,11 @@ class Verbosity:
             answer = ''
             for line in sys.stdin:
                 answer = line.rstrip()
+                print('read', answer, 'expected', expected_answer)
                 if answer == expected_answer:
                     break
                 else:
-                    print('Try agian...')
+                    print('Try again...')
 
     @staticmethod
     def verbose(level, msg):

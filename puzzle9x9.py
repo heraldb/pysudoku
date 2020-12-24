@@ -5,7 +5,7 @@ from puzzle import Puzzle
 
 
 class Puzzle9x9(Puzzle):
-    def __init__(self, values):
+    def __init__(self, values, hyper=False):
         cells = [Cell(v) for v in values]
         rows = [Group('row', cells[v * 9:(v * 9) + 9]) for v in range(9)]
         Group.nr = 0
@@ -22,6 +22,13 @@ class Puzzle9x9(Puzzle):
                                  cells[n + 9:n + 12] +
                                  cells[n + 18:n + 21]
                                  ))
+        if hyper:
+            for n in [10, 14, 46, 50]:
+                squares.append(Group('inner-square',
+                                     cells[n:n + 3] +
+                                     cells[n + 9:n + 12] +
+                                     cells[n + 18:n + 21]
+                                     ))
         # for r in rows:
         #     print(r.__repr__())
         # for c in columns:

@@ -13,6 +13,8 @@ def toNumber(char):
 parser = argparse.ArgumentParser(description='Solves a sudoku 9x9 puzzle.')
 parser.add_argument('file', help='sudoku-file', nargs=1)
 parser.add_argument('--hints', action="store_true", help="interactive mode")
+parser.add_argument('--hyper', action="store_true",
+                    help="hyper sudoku (with 4 inner squares)")
 parser.add_argument('-v', "--verbose", type=int, help="verbosity 1-4")
 
 args = parser.parse_args()
@@ -27,7 +29,7 @@ values = [toNumber(char) for char in text if 46 <= ord(char) <= 57]
 if len(values) != 81:
     raise Exception(f"Invalid sudoku: expected 81 digits, not {len(values)}")
 
-sudoku = Puzzle9x9(values)
+sudoku = Puzzle9x9(values, args.hyper)
 if Verbosity.level >= 1:
     print("Initial sudoku")
     sudoku.print()

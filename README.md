@@ -6,7 +6,7 @@ Solving sudoku puzzles (9x9)
 
 ```
 $ ./sudoku.py -h`
-usage: sudoku.py [-h] [--hints] [-v VERBOSE] file
+usage: sudoku.py [-h] [--hints] [--hyper] [-v VERBOSE] file
 
 Solves a sudoku 9x9 puzzle.
 
@@ -16,6 +16,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --hints               interactive mode
+  --hyper               hyper sudoku (with 4 inner squares)
   -v VERBOSE, --verbose VERBOSE
                         verbosity 1-4
 ```
@@ -63,7 +64,8 @@ $ python sudoku.py s20201128
 * uses logic to solve as much as possible.
 * falls back to trial & error with backtracking if logic is insufficient. In this case multiple solutions are possible. All possible solutions will appear in the output.
 * If you are trying to solve a sudoku by hand and your are stuck, you can use the 
-`--hints` option to help you solving the sudoku
+`--hints` option to help you solving the sudoku. **Note**: the hint mode will only work as expected when the sudoku can be solved with logic.
+* can also solve hyper sudokus (with four inner squares)
 
 ## Design
 

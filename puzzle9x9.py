@@ -28,7 +28,8 @@ class Puzzle9x9(Puzzle):
         #     print(c.__repr__())
         # for s in squares:
         #     print(s.__repr__())
-        super(Puzzle9x9, self).__init__(cells, rows + columns + squares, rows)
+        super(Puzzle9x9, self).__init__(cells, rows + columns + squares)
+        self.rows = rows
         Verbosity.print = self.print
 
     def print(self, cell=None):

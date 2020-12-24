@@ -4,10 +4,9 @@ from verbosity import Verbosity
 
 
 class Puzzle:
-    def __init__(self, cells=[], groups=[], rows=[]):
+    def __init__(self, cells=[], groups=[]):
         self.cells = cells
         self.groups = groups
-        self.rows = rows
         self.solutions = []
 
     def remaining_groups(self):

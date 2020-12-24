@@ -16,6 +16,8 @@ class Verbosity:
                 answer = line.rstrip()
                 if answer == expected_answer:
                     break
+                else:
+                    print('Try agian...')
 
     @staticmethod
     def verbose(level, msg):

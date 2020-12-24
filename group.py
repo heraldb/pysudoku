@@ -107,7 +107,7 @@ class Group:
                     2, f"{me}: cell {cstr} is only option for value {v}")
                 Verbosity.expect_answer(
                     f"In {self.__str__()}, which cell can have value {v}:",
-                    candidate.__str__()
+                    candidate.__str__(True)
                 )
                 candidate.set(v)
 

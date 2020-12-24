@@ -73,3 +73,7 @@ It should be relatively easy to add support for other types of sudoku's.
 The base classes Cell, Group and Puzzle are agnostic for sudoku layout.
 To support other sudoku types than the popular 9x9 type, write a variant
 of Puzzle9x9 and `sudoky.py` to deal with the other type.
+
+## To be done
+* Fix hint mode for cases where trial & error with backtracking is used.
+* nicer print layout for hyper sudokus.

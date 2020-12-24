@@ -41,7 +41,19 @@ class Puzzle9x9(Puzzle):
         n = 0
         for row in self.rows:
             n += 1
-            row.print(cell)
+            self.print_row(row, cell)
             print('', n)
             if n % 3 == 0:
                 print(f"+{'-' *29}+")
+
+    def print_row(self, row, cell):
+        n = 0
+        print('|', end='')
+        for c in row.cells:
+            if (cell and cell.id == c.id):
+                print(' ? ', end='')
+            else:
+                c.print()
+            n += 1
+            if n % 3 == 0:
+                print('|', end='')

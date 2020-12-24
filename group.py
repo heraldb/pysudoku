@@ -8,11 +8,12 @@ class Group:
     verbosity = 0
     hints = False
 
-    def __init__(self, type, cells):
+    def __init__(self, type, cells, max=9):
         Group.nr += 1
         self.id = Group.nr
         self.type = type
         self.cells = cells
+        self.max = max
 
     def __repr__(self):
         return f"{self.__str__()}: {','.join([str(v) for v in self.values()])}"
@@ -40,7 +41,7 @@ class Group:
 
     def is_ready(self):
         ready = len(self.remaining_cells()) == 0
-        if (ready and len(self.values()) != 9):
+        if (ready and len(self.values()) != self.max):
             valuestr = ','.join([str(v) for v in self.values()])
             raise Exception(f"double values in {self.__str__()} ({valuestr})")
         return ready
@@ -109,18 +110,6 @@ class Group:
                     candidate.__str__()
                 )
                 candidate.set(v)
-
-    def print(self, cell):
-        n = 0
-        print('|', end='')
-        for c in self.cells:
-            if (cell and cell.id == c.id):
-                print(' ? ', end='')
-            else:
-                c.print()
-            n += 1
-            if n % 3 == 0:
-                print('|', end='')
 
     @staticmethod
     def _get_island(cells):

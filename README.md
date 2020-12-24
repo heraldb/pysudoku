@@ -65,3 +65,9 @@ $ python sudoku.py s20201128
 * If you are trying to solve a sudoku by hand and your are stuck, you can use the 
 `--hints` option to help you solving the sudoku
 
+## Design
+
+It should be relatively easy to add support for other types of sudoku's.
+The base classes Cell, Group and Puzzle are agnostic for sudoku layout.
+To support other sudoku types than the popular 9x9 type, write a variant
+of Puzzle9x9 and `sudoky.py` to deal with the other type.

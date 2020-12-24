@@ -23,6 +23,7 @@ class Puzzle9x9(Puzzle):
                                  cells[n + 18:n + 21]
                                  ))
         if hyper:
+            Group.nr = 0
             for n in [10, 14, 46, 50]:
                 squares.append(Group('inner-square',
                                      cells[n:n + 3] +

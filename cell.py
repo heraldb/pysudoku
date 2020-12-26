@@ -5,20 +5,19 @@ class Cell:
     nr = 0
     progress = 0
 
-    def __init__(self, value=0, max=9):
+    def __init__(self,  value=0, idstr='', max=9):
         Cell.nr += 1
         self.id = Cell.nr
         self.value = value
+        self.idstr = idstr or str(self.id)
         self.max = max
         self.options = {} if value else {v for v in range(1, max + 1)}
         self.state = None
 
     def __str__(self, strip=False):
-        row = 1 + (self.id - 1) // self.max
-        col = 1 + (self.id - 1) % self.max
         if strip:
-            return f"{col},{row}"
-        return f"({col},{row})"
+            return self.idstr
+        return f"({self.idstr})"
 
     def __repr__(self):
         return \

@@ -6,7 +6,13 @@ from puzzle import Puzzle
 
 class Puzzle9x9(Puzzle):
     def __init__(self, values, hyper=False):
-        cells = [Cell(v) for v in values]
+        cells = []
+        n = 0
+        for v in values:
+            n += 1
+            rownr = 1 + (n - 1) // 9
+            colnr = 1 + (n - 1) % 9
+            cells.append(Cell(v, f"{rownr},{colnr}"))
         rows = [Group('row', cells[v * 9:(v * 9) + 9]) for v in range(9)]
         Group.nr = 0
         columns = []

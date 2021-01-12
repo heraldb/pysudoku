@@ -5,13 +5,13 @@ class Cell:
     nr = 0
     progress = 0
 
-    def __init__(self,  value=0, idstr='', max=9):
+    def __init__(self,  value=0, idstr='', maxnr=9):
         Cell.nr += 1
         self.id = Cell.nr
         self.value = value
         self.idstr = idstr or str(self.id)
-        self.max = max
-        self.options = {} if value else {v for v in range(1, max + 1)}
+        self.max = maxnr
+        self.options = {} if value else {v for v in range(1, maxnr + 1)}
         self.state = None
 
     def __str__(self, strip=False):

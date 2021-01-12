@@ -35,7 +35,7 @@ class Puzzle:
             self.solutions.append([c.value for c in self.cells])
         else:
             if Verbosity.level >= 1:
-                print("gave up on logic, this is have far we got")
+                print("gave up on logic, this is how far we got")
                 self.print()
                 print("Starting backtrack algoritm (level {})".format(
                     len(stack)))

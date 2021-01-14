@@ -4,13 +4,16 @@ from island import Island
 
 class Group:
     nr = 0
+    id_start = 0
     search_islands = False
     verbosity = 0
     hints = False
 
     def __init__(self, type, cells, max=9):
         Group.nr += 1
-        self.id = Group.nr
+        Group.id_start += 1
+        self.nr = Group.nr
+        self.id = Group.id_start
         self.type = type
         self.cells = cells
         self.max = max
@@ -19,7 +22,7 @@ class Group:
         return f"{self.__str__()}: {','.join([str(v) for v in self.values()])}"
 
     def __str__(self):
-        return f"{self.type}-{self.id}"
+        return f"{self.type}-{self.nr}"
 
     def debug(self):
         cellinfo = "\n".join([c.__repr__() for c in self.cells])

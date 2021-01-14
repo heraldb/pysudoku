@@ -1,6 +1,7 @@
 from group import Group
 from cell import Cell
 from verbosity import Verbosity
+import sys
 
 
 class Puzzle:
@@ -23,8 +24,14 @@ class Puzzle:
                 pre_solve = Cell.progress
                 group.solve()
                 if (Cell.progress > pre_solve):
-                    for group in self.groups:
-                        group.validate()
+                    for g in self.groups:
+                        g.validate()
+
+            if Cell.progress == prev_progress:
+                for g1 in self.groups:
+                    for g2 in self.groups:
+                        if g1 is not g2:
+                            self.process_intersection(g1, g2)
 
             if prev_progress == Cell.progress and not Group.search_islands:
                 Group.search_islands = True
@@ -37,10 +44,67 @@ class Puzzle:
             if Verbosity.level >= 1:
                 print("gave up on logic, this is how far we got")
                 self.print()
+                for g in self.groups:
+                    print(g.debug())
+                # sys.exit(0)
                 print("Starting backtrack algoritm (level {})".format(
                     len(stack)))
             self.backtrack(stack)
             Verbosity.verbose(1, f"leaving level {len(stack)}")
+
+    def process_intersection(self, g1, g2):
+        # Find common cells of two groups and if those cells should
+        # contain certain values that can not be in other cells of
+        # group 2, exclude this option from other cells in group 1
+
+        # not sure yet why this is nescessary....
+        g1.solve()
+        g2.solve()
+
+        common_cells = []
+        for c1 in g1.cells:
+            for c2 in g2.cells:
+                if c1 is c2:
+                    common_cells.append(c2)
+
+        # don't look further if there is only one cell or less
+        if len([c for c in common_cells if c.value == 0]) <= 1:
+            return
+
+        common_options = set()
+        other_options_g2 = set()
+        common_cell_id = {c.id for c in common_cells}
+        for c2 in g2.cells:
+            if c2.value == 0:
+                for o in c2.options:
+                    if c2.id in common_cell_id:
+                        common_options.add(o)
+                    else:
+                        other_options_g2.add(o)
+
+        diff = common_options.difference(other_options_g2)
+        if len(diff) == 0:
+            return
+
+        if Verbosity.level >= 3:
+            Verbosity.print()
+            print(1, 'intersection', g1.__str__(), g2.__str__(),
+                  '\ndiff', diff,
+                  '\ncommon cells', common_cells,
+                  '\ncommon_options', common_options,
+                  '\nother options_g2', other_options_g2)
+
+        if Verbosity.level >= 2:
+            print('comparing', g1.__str__(), 'and', g2.__str__())
+            cellstr = ",".join([c.__str__() for c in common_cells])
+            print(cellstr, 'must have value', diff,
+                  'dropping this option from other cells of', g1.__str__())
+
+        for o in diff:
+            for c1 in g1.cells:
+                if not c1.value and c1.id not in common_cell_id:
+                    c1.drop_option(o)
+        g1.solve()
 
     def backtrack(self, stack):
         cells = self.remaining_cells()

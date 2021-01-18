@@ -5,7 +5,7 @@ Solving sudoku puzzles (9x9)
 ## Usage:
 
 ```
-$ ./sudoku.py -h`
+$ ./sudoku.py -h
 usage: sudoku.py [-h] [--hints] [--hyper] [-v VERBOSE] file
 
 Solves a sudoku 9x9 puzzle.

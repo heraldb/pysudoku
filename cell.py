@@ -33,13 +33,14 @@ class Cell:
         return self.options
 
     def set(self, n):
-        self.value = n
-        Cell.progress += 1
-        if not (n in self.options):
-            raise Exception(
-                f"value {n} not possible for cell {self.__str__()}")
-        self.options = {}
-        Verbosity.verbose(3, f"cell {self.__str__()} is set to value {n}")
+        if self.value == 0:
+            self.value = n
+            Cell.progress += 1
+            if not (n in self.options):
+                raise Exception(
+                    f"value {n} not possible for cell {self.__str__()}")
+            self.options = {}
+            Verbosity.verbose(3, f"cell {self.__str__()} is set to value {n}")
 
     def can(self, n):
         return self.options and n in self.options

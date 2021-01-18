@@ -1,5 +1,6 @@
 from verbosity import Verbosity
 from island import Island
+from cell import Cell
 
 
 class Group:
@@ -58,7 +59,8 @@ class Group:
                 f"{self.__str__()}: value {double} occurs more than once")
 
     def solve(self):
-        Verbosity.verbose(2, f"solving {self.__str__()}")
+        Verbosity.verbose(
+            2, f"solving {self.__str__()} ({Cell.progress})")
         Verbosity.verbose(4, self.debug())
         rcells = self.remaining_cells()
         if (len(rcells) == 0):

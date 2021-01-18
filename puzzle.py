@@ -9,6 +9,8 @@ class Puzzle:
         self.cells = cells
         self.groups = groups
         self.solutions = []
+        self.related_groups = None
+        self.intersection_groups = None
 
     def remaining_groups(self):
         return [g for g in self.groups if not g.is_ready()]
@@ -16,26 +18,57 @@ class Puzzle:
     def remaining_cells(self):
         return [c for c in self.cells if c.value == 0]
 
+    def update_topography(self):
+        related_groups = dict()     # groups sharing one cell
+        intersection_groups = []    # groups sharing multiple cells
+        for g1 in self.groups:
+            for g2 in self.groups:
+                if g1 is g2:
+                    continue
+                common_cells = []
+                for c1 in g1.cells:
+                    for c2 in g2.cells:
+                        if c1 is c2:
+                            common_cells.append(c2)
+
+                if len(common_cells) > 0:
+                    if g1.id not in related_groups:
+                        related_groups[g1.id] = []
+                    related_groups[g1.id].append(g2)
+                if len(common_cells) > 1:
+                    intersection_groups.append([g1, g2, common_cells])
+        self.related_groups = related_groups
+        self.intersection_groups = intersection_groups
+
     def solve(self, stack=[]):
+        self.update_topography()
         prev_progress = -1
         while Cell.progress > prev_progress:
             prev_progress = Cell.progress
-            for group in self.groups:
-                pre_solve = Cell.progress
-                group.solve()
-                if (Cell.progress > pre_solve):
-                    for g in self.groups:
-                        g.validate()
 
-            if Cell.progress == prev_progress:
-                for g1 in self.groups:
-                    for g2 in self.groups:
-                        if g1 is not g2:
-                            self.process_intersection(g1, g2)
+            # phase 1: trivial exclusion of options within a group
+            while True:
+                prev_progress = Cell.progress
+                for group in self.groups:
+                    pre_solve = Cell.progress
+                    group.solve()
+                    if (Cell.progress > pre_solve):
+                        for g in self.related_groups[group.id]:
+                            g.validate()
+                if Cell.progress == prev_progress:
+                    break
+
+            # phase 2: exclusion related to intersections of groups
+            while True:
+                prev_progress = Cell.progress
+                for (g1, g2, cells) in self.intersection_groups:
+                    self.process_intersection(g1, g2, cells)
+                if Cell.progress == prev_progress:
+                    break
 
             if prev_progress == Cell.progress and not Group.search_islands:
                 Group.search_islands = True
-                prev_progress -= 1  # force extra iteration
+                Cell.progress += 1  # force extra iteration
 
         # if still not solved, fall back on backtrack trial and error
         if len(self.remaining_groups()) == 0:
@@ -52,28 +85,18 @@ class Puzzle:
             self.backtrack(stack)
             Verbosity.verbose(1, f"leaving level {len(stack)}")
 
-    def process_intersection(self, g1, g2):
+    def process_intersection(self, g1, g2, cells):
         # Find common cells of two groups and if those cells should
         # contain certain values that can not be in other cells of
         # group 2, exclude this option from other cells in group 1
 
-        # not sure yet why this is nescessary....
-        g1.solve()
-        g2.solve()
-
-        common_cells = []
-        for c1 in g1.cells:
-            for c2 in g2.cells:
-                if c1 is c2:
-                    common_cells.append(c2)
-
         # don't look further if there is only one cell or less
-        if len([c for c in common_cells if c.value == 0]) <= 1:
+        if len([c for c in cells if c.value == 0]) <= 1:
             return
 
         common_options = set()
         other_options_g2 = set()
-        common_cell_id = {c.id for c in common_cells}
+        common_cell_id = {c.id for c in cells}
         for c2 in g2.cells:
             if c2.value == 0:
                 for o in c2.options:
@@ -88,15 +111,15 @@ class Puzzle:
 
         if Verbosity.level >= 3:
             Verbosity.print()
-            print(1, 'intersection', g1.__str__(), g2.__str__(),
+            print('intersection', g1.__str__(), g2.__str__(),
                   '\ndiff', diff,
-                  '\ncommon cells', common_cells,
+                  '\ncommon cells', cells,
                   '\ncommon_options', common_options,
                   '\nother options_g2', other_options_g2)
 
         if Verbosity.level >= 2:
             print('comparing', g1.__str__(), 'and', g2.__str__())
-            cellstr = ",".join([c.__str__() for c in common_cells])
+            cellstr = ",".join([c.__str__() for c in cells])
             print(cellstr, 'must have value', diff,
                   'dropping this option from other cells of', g1.__str__())
 
@@ -105,6 +128,8 @@ class Puzzle:
                 if not c1.value and c1.id not in common_cell_id:
                     c1.drop_option(o)
         g1.solve()
+        for g in self.related_groups[g1.id]:
+            g.solve()
 
     def backtrack(self, stack):
         cells = self.remaining_cells()

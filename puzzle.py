@@ -135,6 +135,7 @@ class Puzzle:
         g1.solve()
         for g in self.related_groups[g1.id]:
             g.solve()
+            g.validate()
 
     def backtrack(self, stack):
         cells = self.remaining_cells()

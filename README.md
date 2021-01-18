@@ -21,7 +21,6 @@ optional arguments:
                         verbosity 1-4
 ```
 
-
 ## Example
 
 create a text file with the sudoko. Use "." for empty cells e.g.:
@@ -61,19 +60,24 @@ $ python sudoku.py s20201128
 
 ## Features
 
-* uses logic to solve as much as possible.
-* falls back to trial & error with backtracking if logic is insufficient. In this case multiple solutions are possible. All possible solutions will appear in the output.
-* If you are trying to solve a sudoku by hand and your are stuck, you can use the 
-`--hints` option to help you solving the sudoku. **Note**: the hint mode will only work as expected when the sudoku can be solved with logic.
-* can also solve hyper sudokus (with four inner squares)
+- uses logic to solve as much as possible. If there is one solution possible,
+  it will find it.
+- falls back to trial & error with backtracking if logic is insufficient. In this case multiple solutions are likely. All possible solutions will appear in the output.
+- Many validation are done while the sudoku is being solved. If something appears
+  to be invalid, you probably should take a look at the input (any typos?).
+- If you are trying to solve a sudoku by hand and your are stuck, you can use the
+  `--hints` option to help you solving the sudoku. **Note**: the hint mode might
+  be a bit confusing in the case multiple solutions are possible.
+- can also solve hyper sudokus (with four inner squares)
 
 ## Design
 
-It should be relatively easy to add support for other types of sudoku's.
+It should be relatively easy to add support for other types of sudokus.
 The base classes Cell, Group and Puzzle are agnostic for sudoku layout.
 To support other sudoku types than the popular 9x9 type, write a variant
 of Puzzle9x9 and `sudoky.py` to deal with the other type.
 
 ## To be done
-* Fix hint mode for cases where trial & error with backtracking is used.
-* nicer print layout for hyper sudokus.
+
+- Improvements on hint-mode for multi-solution sudokus
+- nicer print layout for hyper sudokus.

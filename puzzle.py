@@ -109,6 +109,15 @@ class Puzzle:
         if len(diff) == 0:
             return
 
+        prev_progress = Cell.progress
+        for o in diff:
+            for c1 in g1.cells:
+                if not c1.value and c1.id not in common_cell_id:
+                    c1.drop_option(o)
+        # did it make any difference?
+        if Cell.progress == prev_progress:
+            return
+
         if Verbosity.level >= 3:
             Verbosity.print()
             print('intersection', g1.__str__(), g2.__str__(),
@@ -123,10 +132,6 @@ class Puzzle:
             print(cellstr, 'must have value', diff,
                   'dropping this option from other cells of', g1.__str__())
 
-        for o in diff:
-            for c1 in g1.cells:
-                if not c1.value and c1.id not in common_cell_id:
-                    c1.drop_option(o)
         g1.solve()
         for g in self.related_groups[g1.id]:
             g.solve()

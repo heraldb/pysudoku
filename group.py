@@ -60,7 +60,7 @@ class Group:
 
     def solve(self):
         Verbosity.verbose(
-            2, f"solving {self.__str__()} ({Cell.progress})")
+            3, f"solving {self.__str__()} ({Cell.progress})")
         Verbosity.verbose(4, self.debug())
         rcells = self.remaining_cells()
         if (len(rcells) == 0):

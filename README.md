@@ -85,9 +85,9 @@ The sudoku has cells. A cell can have a value or, when the value is not known, i
 
 We apply three strategies for reducing options of the cells without a value:
 
-1. We consider a group and we check the values in that group, and drop that option from the cells withou a value. We do that for all groups and repeat that until no options are dropped. Of course, as soon as a cell has only one option, we take that as value for that cell.
+1. We consider a group and we check the values in that group, and drop that option from the cells without a value. We do that for all groups and repeat that until no options are dropped. Of course, as soon as a cell has only one option, we take that as value for that cell.
 2. We consider a group and try to find a subgroup ("island") of N cells which have (together) only N possible options. Then we know for sure we can drop these options from the other cells of the group. (Because if one of the options would taken by another cell, the group of N cells would only have N-1 optional values, which would make a solution impossible).
-3. This one is a bit more complex, since it involves two groups. We consider groups with an intersection of more than two (empty) cells. E.g. a row and a 3x3 square. In the case that the common cells have an option for a value that is impossible for any of the other cells of one of the groups, we know that this value should be in one of the common cells. So, we can drop this option for other the cells of the other group.
+3. This one is a bit more complex, since it involves two groups. We consider groups with an intersection of at least two (empty) cells. E.g. a row and a 3x3 square. In the case that the common cells have an option for a value that is impossible for any of the other cells of one of the groups, we know that this value should be in one of the common cells. So, we can drop this option for other the cells of the other group.
 
 ## To be done
 

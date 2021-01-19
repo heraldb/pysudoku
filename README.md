@@ -72,10 +72,20 @@ $ python sudoku.py s20201128
 
 ## Design
 
+The sudoku is represented by cells (representing one digit), groups (containing cells with unqiue values in this group, typically, these are the rows collumns and 3x3 squares in the regular sudoku).
+
 It should be relatively easy to add support for other types of sudokus.
 The base classes Cell, Group and Puzzle are agnostic for sudoku layout.
 To support other sudoku types than the popular 9x9 type, write a variant
 of Puzzle9x9 and `sudoky.py` to deal with the other type.
+
+## Logic
+
+The basic idea for solving the sudoku is that each cell has a value, or has options for certain values (normally 1-9). If a cell has options, we can reduce the options by looking at a few things:
+
+1. looking at values in all the groups the cell is part of. Thes axisting values should be removed from the options of other cells, to prevent this value would exist multiple times in the same group.
+2. looking at cells in an intersection of two groups with multiple cells in common. If these cells have an option for a value that is impossible for all the other cells of one of the groups, we know that this value should be in one of the common cells and we can drop this option for other the cells of the other group.
+3. finding a subgroup ("island") within a group of N cells which have (together) only N possible options. Then we know for sure we can drop these options from the other cells of the group. (Because if one of the options would taken by another cell, the group of N cells would only have N-1 optional values, which would make a solution impossible).
 
 ## To be done
 

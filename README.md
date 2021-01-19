@@ -81,11 +81,13 @@ of Puzzle9x9 and `sudoky.py` to deal with the other type.
 
 ## Logic
 
-The basic idea for solving the sudoku is that each cell has a value, or has options for certain values (normally 1-9). If a cell has options, we can reduce the options by looking at a few things:
+The sudoku has cells. A cell can have a value or, when the value is not known, it has options for a value. When we know nothing about the value,the options can be 1 to 9. When applying rules, the set of options will reduce. When there is only one option left, we know the value of that cell. So the game of solving is to apply rules until options of all cells are reduced to one, i.o.w. until we know the value of each cell.
 
-1. looking at values in all the groups the cell is part of. Thes axisting values should be removed from the options of other cells, to prevent this value would exist multiple times in the same group.
-2. looking at cells in an intersection of two groups with multiple cells in common. If these cells have an option for a value that is impossible for all the other cells of one of the groups, we know that this value should be in one of the common cells and we can drop this option for other the cells of the other group.
-3. finding a subgroup ("island") within a group of N cells which have (together) only N possible options. Then we know for sure we can drop these options from the other cells of the group. (Because if one of the options would taken by another cell, the group of N cells would only have N-1 optional values, which would make a solution impossible).
+We apply three rules for reducing options of the cells without a value:
+
+1. We consider a group and we check the values in that group, and drop that option from the cells withou a value. We do that for all groups and repeat that until no options are dropped. Of course, as soon as a cell has only one option, we take that as value for that cell.
+2. We consider a group and try to find a subgroup ("island") of N cells which have (together) only N possible options. Then we know for sure we can drop these options from the other cells of the group. (Because if one of the options would taken by another cell, the group of N cells would only have N-1 optional values, which would make a solution impossible).
+3. This one is a bit more complex, since it involves two groups. We consider groups with an intersection of more than two (empty) cells. E.g. a row and a 3x3 square. In the case that the common cells have an option for a value that is impossible for any of the other cells of one of the groups, we know that this value should be in one of the common cells. So, we can drop this option for other the cells of the other group.
 
 ## To be done
 

@@ -83,7 +83,7 @@ of Puzzle9x9 and `sudoky.py` to deal with the other type.
 
 The sudoku has cells. A cell can have a value or, when the value is not known, it has options for a value. When we know nothing about the value,the options can be 1 to 9. When applying rules, the set of options will reduce. When there is only one option left, we know the value of that cell. So the game of solving is to apply rules until options of all cells are reduced to one, i.o.w. until we know the value of each cell.
 
-We apply three rules for reducing options of the cells without a value:
+We apply three strategies for reducing options of the cells without a value:
 
 1. We consider a group and we check the values in that group, and drop that option from the cells withou a value. We do that for all groups and repeat that until no options are dropped. Of course, as soon as a cell has only one option, we take that as value for that cell.
 2. We consider a group and try to find a subgroup ("island") of N cells which have (together) only N possible options. Then we know for sure we can drop these options from the other cells of the group. (Because if one of the options would taken by another cell, the group of N cells would only have N-1 optional values, which would make a solution impossible).

@@ -40,6 +40,18 @@ class Puzzle:
         self.related_groups = related_groups
         self.intersection_groups = intersection_groups
 
+    def drop_options(self):
+        while True:
+            prev_progress = Cell.progress
+            for group in self.groups:
+                pre_solve = Cell.progress
+                group.solve()
+                if (Cell.progress > pre_solve):
+                    for g in self.related_groups[group.id]:
+                        g.validate()
+            if Cell.progress == prev_progress:
+                break
+
     def solve(self, stack=[]):
         self.update_topography()
         prev_progress = -1
@@ -47,16 +59,7 @@ class Puzzle:
             prev_progress = Cell.progress
 
             # phase 1: trivial exclusion of options within a group
-            while True:
-                prev_progress = Cell.progress
-                for group in self.groups:
-                    pre_solve = Cell.progress
-                    group.solve()
-                    if (Cell.progress > pre_solve):
-                        for g in self.related_groups[group.id]:
-                            g.validate()
-                if Cell.progress == prev_progress:
-                    break
+            self.drop_options()
 
             # phase 2: exclusion related to intersections of groups
             while True:
@@ -109,15 +112,6 @@ class Puzzle:
         if len(diff) == 0:
             return
 
-        prev_progress = Cell.progress
-        for o in diff:
-            for c1 in g1.cells:
-                if not c1.value and c1.id not in common_cell_id:
-                    c1.drop_option(o)
-        # did it make any difference?
-        if Cell.progress == prev_progress:
-            return
-
         if Verbosity.level >= 3:
             Verbosity.print()
             print('intersection', g1.__str__(), g2.__str__(),
@@ -132,10 +126,17 @@ class Puzzle:
             print(cellstr, 'must have value', diff,
                   'dropping this option from other cells of', g1.__str__())
 
-        g1.solve()
-        for g in self.related_groups[g1.id]:
-            g.solve()
-            g.validate()
+        prev_progress = Cell.progress
+        for o in diff:
+            for c1 in g1.cells:
+                if not c1.value and c1.id not in common_cell_id:
+                    c1.drop_option(o)
+        # did it make any difference?
+        if Cell.progress == prev_progress:
+            Verbosity.verbose(2, f"{diff} was already dropped")
+            return
+
+        self.drop_options()
 
     def backtrack(self, stack):
         cells = self.remaining_cells()

@@ -63,7 +63,7 @@ $ python sudoku.py s20201128
 - uses logic to solve as much as possible. If there is one solution possible,
   it will find it.
 - falls back to trial & error with backtracking if logic is insufficient. In this case multiple solutions are likely. All possible solutions will appear in the output.
-- Many validation are done while the sudoku is being solved. If something appears
+- Validation is done while the sudoku is being solved. If something appears
   to be invalid, you probably should take a look at the input (any typos?).
 - If you are trying to solve a sudoku by hand and your are stuck, you can use the
   `--hints` option to help you solving the sudoku. **Note**: the hint mode might
@@ -74,7 +74,7 @@ $ python sudoku.py s20201128
 
 The sudoku is represented by cells (representing one digit), groups (containing cells with unqiue values in this group, typically, these are the rows collumns and 3x3 squares in the regular sudoku).
 
-It should be relatively easy to add support for other types of sudokus.
+It should be relatively easy to add support for other types of sudokus (other than 9x9).
 The base classes Cell, Group and Puzzle are agnostic for sudoku layout.
 To support other sudoku types than the popular 9x9 type, write a variant
 of Puzzle9x9 and `sudoky.py` to deal with the other type.
